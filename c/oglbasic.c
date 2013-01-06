@@ -143,6 +143,7 @@ size_t load_shader(const char *filename, char **buffer)
  * --------------------------------------------------------------------- */
 void setup(void)
 {
+#if 0
   // NOTE: this is just for debugging "load_shader"!!!
   size_t size;
   char *buffer;
@@ -160,6 +161,13 @@ void setup(void)
 	     buffer);
       free(buffer);
     }
+#endif
+  
+  glClearColor(0.0, 0.0, 0.0, 0.0);
+  glShadeModel(GL_SMOOTH);
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glEnable(GL_DEPTH_TEST);
 }
 
 /* ---------------------------------------------------------------------
@@ -220,6 +228,19 @@ void cb_reshape(int w, int h)
   fprintf(stderr,
 	  "[info] cb_reshape: width=%d and height=%d.\n",
 	  w, h);
+  
+  // prevent divide by zero
+  if(h == 0) {
+    h = 1;
+  }
+  
+  glViewport(0, 0, w, h);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  //glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 5.0);
+  gluPerspective(40.0, (GLfloat) w / (GLfloat) h, 1.0, 20.0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 }
 
 /* ---------------------------------------------------------------------
@@ -236,7 +257,12 @@ void cb_display(void)
 	  GL_STENCIL_BUFFER_BIT);
 
   /* render scene */
+  // add light
+  //glPush
 
+  // add teapot
+  glColor3f(1.0f, 1.0f, 1.0f);
+  glutSolidTeapot(1.0);
 
   /* flush and redraw */
   glutSwapBuffers();

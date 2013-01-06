@@ -15,7 +15,7 @@ CINCS	= -I$(GLUTINC)
 
 LD	= gcc
 LDFLAGS	= -s -Wl,-rpath,$(GLUTLIB)
-LDLIBS	= -L$(GLUTLIB) -lglut
+LDLIBS	= -L$(GLUTLIB) -lglut -lGLU
 
 all:	oglbasic
 
